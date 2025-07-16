@@ -13,6 +13,8 @@
 # standard deviation given as a parameter to the script.
 # The script takes the following command line arguments:
 # - `--num_samples`: Number of samples to generate (default: 100)
+# - `--A_max`: Maximum value for A (default: 10)
+# - `--B_max`: Maximum value for B (default: 10)
 # - `--std_dev`: Standard deviation for the noise in flipping R (default: 0.1)
 # - `--seed`: Random seed for reproducibility (default: 42)
 # - `--output`: Output file path (default: 'data.csv')
@@ -24,16 +26,18 @@ import numpy as np
 def parse_args():
     parser = argparse.ArgumentParser(description="Generate synthetic data for training a model.")
     parser.add_argument('--num_samples', type=int, default=100, help='Number of samples to generate')
+    parser.add_argument('--A_max', type=float, default=10, help='Maximum value for A')
+    parser.add_argument('--B_max', type=float, default=10, help='Maximum value for B')
     parser.add_argument('--std_dev', type=float, default=0.1, help='Standard deviation for noise in flipping R')
     parser.add_argument('--seed', type=int, default=42, help='Random seed for reproducibility')
     parser.add_argument('--no_target', action='store_true', help='If set, do not generate target variable R')
     parser.add_argument('--output', type=str, default='data.csv', help='Output file path')
     return parser.parse_args()
 
-def generate_data(num_samples, std_dev, seed, no_target=False):
+def generate_data(num_samples, A_max, B_max, std_dev, seed, no_target=False):
     np.random.seed(seed)
-    A = np.random.uniform(0, 1, num_samples)
-    B = np.random.uniform(0, 1, num_samples)
+    A = np.random.uniform(0, A_max, num_samples)
+    B = np.random.uniform(0, B_max, num_samples)
 
     if no_target:
         return A, B, None
@@ -42,7 +46,7 @@ def generate_data(num_samples, std_dev, seed, no_target=False):
     R = (A + B >= 1).astype(int)
 
     # Calculate the probability of flipping R based on the distance from 1
-    flip_prob = np.clip((A + B - 1) ** 2, 0, 1)
+    flip_prob = np.clip((A + B - 0.5*(A_max + B_max)) ** 2, 0, 1)
     flip_mask = np.random.normal(0, std_dev, num_samples) < flip_prob
 
     # Flip R based on the calculated mask
@@ -56,7 +60,7 @@ def save_data(A, B, R, output_file):
 
 def main():
     args = parse_args()
-    A, B, R = generate_data(args.num_samples, args.std_dev, args.seed, args.no_target)
+    A, B, R = generate_data(args.num_samples, args.A_max, args.B_max, args.std_dev, args.seed, args.no_target)
     save_data(A, B, R, args.output)
     print(f"Data generated and saved to {args.output}")
 
