@@ -10,7 +10,7 @@
 # The script uses scikit-learn for training the model and pickle for saving the model.
 
 import argparse
-import json
+import yaml
 import pandas as pd
 import pickle
 from sklearn.linear_model import LogisticRegression
@@ -32,7 +32,8 @@ def load_data(data_path):
 
 def load_params(params_path):
     with open(params_path, 'r') as file:
-        return json.load(file)
+        params = yaml.safe_load(file)
+    return params['train']
 
 def train_model(X, y, params):
     model = LogisticRegression(**params)
