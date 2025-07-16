@@ -33,7 +33,9 @@ We assume that we have the data sets given, i.e.,
 
 ### Initializing DVC
 
-To initialize DVC in your project, run the following command:
+To initialize DVC in your project, run the following command in the root
+directory of your project (where the `.git/` directory is located) to create a
+`.dvc/` directory and a `.dvcignore` file. 
 
 ```bash
 $ dvc init
