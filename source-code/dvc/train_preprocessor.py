@@ -5,7 +5,6 @@
 # This is done using MinMaxScaler from scikit-learn.
 # The script takes the following command line arguments:
 # - `--data`: Path to the training data file (default: 'data/data.csv')
-# - `--seed`: Random seed for reproducibility (required)
 # - `--output`: Output file path for the preprocessor (default: 'models/preprocessor.pkl')
 
 import argparse
@@ -16,7 +15,6 @@ from sklearn.preprocessing import MinMaxScaler
 def parse_args():
     parser = argparse.ArgumentParser(description="Train a preprocessor for the model.")
     parser.add_argument('--data', type=str, default='data/data.csv', help='Path to the training data file')
-    parser.add_argument('--seed', type=int, required=True, help='Random seed for reproducibility')
     parser.add_argument('--output', type=str, default='models/preprocessor.pkl', help='Output file path for the preprocessor')
     return parser.parse_args()
 
