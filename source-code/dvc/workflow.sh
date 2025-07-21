@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 dvc stage add --name split_data --force \
     --deps data/data.csv \
     --deps src/split_data.py --deps src/utils.py \
@@ -10,6 +12,7 @@ dvc stage add --name split_data --force \
         --data data/data.csv \
         --params params.yaml \
         --output data/split_data/
+git commit -m 'Add split_ddata stage'
 
 dvc stage add --name train_preprocessor --force \
     --deps data/split_data/train.csv \
@@ -18,6 +21,7 @@ dvc stage add --name train_preprocessor --force \
     python src/train_preprocessor.py \
         --data data/split_data/train.csv \
         --output preprocessor.pkl
+git commit -m 'Add train_preprocessor stage'
 
 dvc stage add --name preprocess_train --force \
     --deps data/split_data/train.csv \
@@ -28,6 +32,7 @@ dvc stage add --name preprocess_train --force \
         --data data/split_data/train.csv \
         --preprocessor preprocessor.pkl \
         --output data/preprocessed/train.csv
+git commit -m 'Add preprocess_train stage'
 
 dvc stage add --name preprocess_test --force \
     --deps data/split_data/test.csv \
@@ -38,6 +43,7 @@ dvc stage add --name preprocess_test --force \
         --data data/split_data/test.csv \
         --preprocessor preprocessor.pkl \
         --output data/preprocessed/test.csv
+git commit -m 'Add preprocess_test stage'
 
 dvc stage add --name train_model --force \
     --deps data/preprocessed/train.csv \
@@ -48,6 +54,7 @@ dvc stage add --name train_model --force \
         --data data/preprocessed/train.csv \
         --params params.yaml \
         --output model.pkl
+git commit -m 'Add train_model stage'
 
 dvc stage add --name compute_metrics_train --force \
     --deps data/preprocessed/train.csv \
@@ -58,6 +65,7 @@ dvc stage add --name compute_metrics_train --force \
         --data data/preprocessed/train.csv \
         --model model.pkl \
         --output metrics/train.yaml
+git commit -m 'Add compute_metrics_train stage'
 
 dvc stage add --name compute_metrics_test --force \
     --deps data/preprocessed/test.csv \
@@ -68,4 +76,5 @@ dvc stage add --name compute_metrics_test --force \
         --data data/preprocessed/test.csv \
         --model model.pkl \
         --output metrics/test.yaml
+git commit -m 'Add compute_metrics_test stage'
 
