@@ -5,21 +5,26 @@
 # It takes the following command line arguments:
 # --data: Path to the test data file (default: 'data/test.csv')
 # --model: Path to the trained model file (default: 'models/model.pkl')
-# --output: Path to save the computed metrics (default: 'metrics/metrics.json')
+# --output: Path to save the computed metrics (default: 'metrics/metrics.yaml')
 # --verbose: If set, prints additional information during computation
 
 
 import argparse
-import json
-from utils import load_csv, load_pickle
+import pathlib
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from utils import load_csv, load_pickle
+import yaml
 
 def parse_args():   
     parser = argparse.ArgumentParser(description="Compute metrics for a logistic regression model.")
-    parser.add_argument('--data', type=str, default='data/test.csv', help='Path to the test data file')
-    parser.add_argument('--model', type=str, default='models/model.pkl', help='Path to the trained model file')
-    parser.add_argument('--output', type=str, default='metrics/metrics.json', help='Path to save the computed metrics')
-    parser.add_argument('--verbose', action='store_true', help='Print additional information during computation')
+    parser.add_argument('--data', type=str, default='data/test.csv',
+                        help='Path to the test data file')
+    parser.add_argument('--model', type=str, default='models/model.pkl',
+                        help='Path to the trained model file')
+    parser.add_argument('--output', type=str, default='metrics/metrics.yaml',
+                        help='Path to save the computed metrics')
+    parser.add_argument('--verbose', action='store_true',
+                        help='Print additional information during computation')
     return parser.parse_args()
 
 
@@ -34,8 +39,10 @@ def compute_metrics(model, X, y):
     return metrics
 
 def save_metrics(metrics, output_path):
+    """Saves the computed metrics to a YAML file."""
+    pathlib.Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, 'w') as file:
-        json.dump(metrics, file, indent=4)
+        yaml.dump(metrics, file, indent=4)
 
 def main():
     args = parse_args()

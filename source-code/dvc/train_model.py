@@ -42,7 +42,7 @@ def main():
     
     if args.verbose:
         print(f"Loading hyperparameters from {args.params}...")
-    params = load_yaml(args.params)['train']
+    params = load_yaml(args.params)['train_model']
     
     if args.verbose:
         print("Training the model...")

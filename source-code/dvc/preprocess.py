@@ -9,7 +9,7 @@
 
 import argparse
 import pandas as pd
-from utils import load_csv, load_yaml, load_pickle, split_train_test, save_train_test
+from utils import load_csv, load_yaml, load_pickle, save_data
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Preprocess data for training a model using a trained preprocessor.")

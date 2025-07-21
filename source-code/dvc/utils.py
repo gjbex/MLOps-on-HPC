@@ -41,4 +41,6 @@ def save_train_test(train_data, test_data, output_dir):
 
 def save_data(data, path):
     """Save DataFrame to CSV file."""
+    p = pathlib.Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
     data.to_csv(path, index=False)

@@ -2,7 +2,7 @@ split_data:
     test_size: 0.3
     random_state: 1234
 
-train:
+train_model:
     penalty: "l1"
     C: 0.5
     solver: "liblinear"
