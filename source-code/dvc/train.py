@@ -10,9 +10,7 @@
 # The script uses scikit-learn for training the model and pickle for saving the model.
 
 import argparse
-import yaml
-import pandas as pd
-import pickle
+from utils import load_csv, load_yaml, save_pickle
 from sklearn.linear_model import LogisticRegression
 
 def parse_args():
@@ -23,33 +21,19 @@ def parse_args():
     parser.add_argument('--verbose', action='store_true', help='Print additional information during training')
     return parser.parse_args()
 
-def load_data(data_path):
-    return pd.read_csv(data_path, dtype={
-        'A': 'float64',
-        'B': 'float64',
-        'R': 'int'
-    })
-
-def load_params(params_path):
-    with open(params_path, 'r') as file:
-        params = yaml.safe_load(file)
-    return params['train']
 
 def train_model(X, y, params):
     model = LogisticRegression(**params)
     model.fit(X, y)
     return model
 
-def save_model(model, output_path):
-    with open(output_path, 'wb') as file:
-        pickle.dump(model, file)
 
 def main():
     args = parse_args()
     
     if args.verbose:
         print(f"Loading data from {args.data}...")
-    data = load_data(args.data)
+    data = load_csv(args.data, dtype={'A': 'float64', 'B': 'float64', 'R': 'int'})
     
     if args.verbose:
         print("Splitting data into features and target variable...")
@@ -58,7 +42,7 @@ def main():
     
     if args.verbose:
         print(f"Loading hyperparameters from {args.params}...")
-    params = load_params(args.params)
+    params = load_yaml(args.params)['train']
     
     if args.verbose:
         print("Training the model...")
@@ -66,7 +50,7 @@ def main():
     
     if args.verbose:
         print(f"Saving the model to {args.output}...")
-    save_model(model, args.output)
+    save_pickle(model, args.output)
     
     if args.verbose:
         print("Training complete.")

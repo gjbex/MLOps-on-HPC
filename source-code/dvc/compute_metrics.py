@@ -11,8 +11,7 @@
 
 import argparse
 import json
-import pandas as pd
-import pickle
+from utils import load_csv, load_pickle
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 def parse_args():   
@@ -23,16 +22,6 @@ def parse_args():
     parser.add_argument('--verbose', action='store_true', help='Print additional information during computation')
     return parser.parse_args()
 
-def load_data(data_path):
-    return pd.read_csv(data_path, dtype={
-        'A': 'float64',
-        'B': 'float64',
-        'R': 'int'
-    })
-
-def load_model(model_path):
-    with open(model_path, 'rb') as file:
-        return pickle.load(file)
 
 def compute_metrics(model, X, y):
     y_pred = model.predict(X)
@@ -53,7 +42,7 @@ def main():
     
     if args.verbose:
         print(f"Loading data from {args.data}...")
-    data = load_data(args.data)
+    data = load_csv(args.data, dtype={'A': 'float64', 'B': 'float64', 'R': 'int'})
     
     if args.verbose:
         print("Splitting data into features and target variable...")
@@ -62,7 +51,7 @@ def main():
     
     if args.verbose:
         print(f"Loading model from {args.model}...")
-    model = load_model(args.model)
+    model = load_pickle(args.model)
     
     if args.verbose:
         print("Computing metrics...")

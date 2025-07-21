@@ -10,8 +10,7 @@
 # with an additional column 'R' for the predicted values.
 
 import argparse
-import pandas as pd
-import pickle
+from utils import load_csv, load_pickle
 
 
 def parse_args():
@@ -22,15 +21,6 @@ def parse_args():
     parser.add_argument('--verbose', action='store_true', help='Print additional information during prediction')
     return parser.parse_args()
 
-def load_data(data_path):
-    return pd.read_csv(data_path, dtype={
-        'A': 'float64',
-        'B': 'float64'
-    })
-
-def load_model(model_path):
-    with open(model_path, 'rb') as file:
-        return pickle.load(file)
 
 def predict(model, X):
     return model.predict(X)
@@ -44,11 +34,11 @@ def main():
     
     if args.verbose:
         print(f"Loading data from {args.data}...")
-    data = load_data(args.data)
+    data = load_csv(args.data, dtype={'A': 'float64', 'B': 'float64'})
     
     if args.verbose:
         print("Loading model from {args.model}...")
-    model = load_model(args.model)
+    model = load_pickle(args.model)
     
     if args.verbose:
         print("Making predictions...")

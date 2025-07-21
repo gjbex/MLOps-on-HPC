@@ -8,8 +8,7 @@
 # - `--output`: Output file path for the preprocessor (default: 'models/preprocessor.pkl')
 
 import argparse
-import pickle
-import pandas as pd
+from utils import load_csv, save_pickle
 from sklearn.preprocessing import MinMaxScaler
 
 def parse_args():
@@ -18,12 +17,6 @@ def parse_args():
     parser.add_argument('--output', type=str, default='models/preprocessor.pkl', help='Output file path for the preprocessor')
     return parser.parse_args()
 
-def load_data(data_path):
-    return pd.read_csv(data_path, dtype={
-        'A': 'float64',
-        'B': 'float64',
-        'R': 'int'
-    })
 
 def train_preprocessor(data):
     scaler = MinMaxScaler()
@@ -31,22 +24,13 @@ def train_preprocessor(data):
     scaler.fit(X)
     return scaler
 
-def save_preprocessor(scaler, output_path):
-    with open(output_path, 'wb') as file:
-        pickle.dump(scaler, file)
 
 def main():
     args = parse_args()
     
-    # Load the data
-    data = load_data(args.data)
-    
-    # Train the preprocessor
+    data = load_csv(args.data, dtype={'A': 'float64', 'B': 'float64', 'R': 'int'})
     scaler = train_preprocessor(data)
-    
-    # Save the preprocessor
-    save_preprocessor(scaler, args.output)
-    
+    save_pickle(scaler, args.output)
     print(f"Preprocessor trained and saved to {args.output}")
 
 if __name__ == "__main__":
