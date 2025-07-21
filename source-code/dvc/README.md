@@ -17,7 +17,7 @@ project.
 * `data`: directory with the data files.
 * `src`: directory with the Python scripts required to execute the workflow.
 * `params.yaml`: YAML file to store parameters for the scripts.
-* `setup.py`: Python script to set up the environment.
+* `setup.sh`: Bash script to set up the environment (same functionality as setup.py).
 * `requirements.txt`: Python requirements file to install the required packages.
 * `init_repository.sh`: shell script to initialize the project directory and
   set up the DVC remote storage.
@@ -36,11 +36,11 @@ you choose for this should not be a git repository.
 $ mkdir ~/dvc_project
 ```
 
-Then execute the `setup.py` script to create the directory structure and
+Then execute the `setup.sh` script to create the directory structure and
 copy the source code and data.
 
 ```bash
-$ python setup.py ~/dvc_project
+$ bash setup.sh ~/dvc_project
 ```
 
 Two directories are created in `~/dvc_project`:
