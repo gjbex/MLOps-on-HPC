@@ -19,7 +19,10 @@ project.
 * `params.yaml`: YAML file to store parameters for the scripts.
 * `setup.py`: Python script to set up the environment.
 * `requirements.txt`: Python requirements file to install the required packages.
-
+* `init_repository.sh`: shell script to initialize the project directory and
+  set up the DVC remote storage.
+* `define_workflow.sh`: shell script to define the workflow and add the
+  stages to DVC.
 
 
 ## How to use it?
@@ -290,6 +293,10 @@ dvc stage add --name compute_metrics_test \
         --model model.pkl \
         --output metrics/test.yaml
 ```
+
+The stages are defined in the shell script `define_workflow.sh` to make it
+easier to add them to DVC.  You can run the script to add all the stages to
+DVC at once.
 
 All these commands simply define the workflow without executing it.  To
 execute the workflow, you can run the following command:
