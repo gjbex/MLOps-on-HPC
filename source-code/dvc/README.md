@@ -127,8 +127,9 @@ $ git add data/data.csv.dvc
 $ git commit -m 'Add data file to DVC'
 ```
 
-It is more convenient to let DVC automatically stage these files for you.  You can do this by
-configuring DVC to automatically stage the `.dvc` files when you run `dvc add`.  To do this, run the following command:
+It is more convenient to let DVC automatically stage these files for you.  You
+can do this by configuring DVC to automatically stage the `.dvc` files when you
+run `dvc add`.  To do this, run the following command:
 
 ```bash
 $ dvc config core.autostage true
@@ -139,6 +140,12 @@ Add the `.dvc/config` file to the git repository and commit the changes:
 ```bash
 $ git add .dvc/config
 $ git commit -m 'Configure DVC to automatically stage .dvc files'
+```
+
+You can now push the data files to the remote storage by running:
+
+```bash 
+$ dvc push
 ```
 
 
