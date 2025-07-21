@@ -1,5 +1,0 @@
-[core]
-    remote = local_storage
-    autostage = true
-['remote "local_storage"']
-    url = /home/gjb/gjb/tmp/storage
