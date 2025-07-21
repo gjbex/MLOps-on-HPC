@@ -13,44 +13,101 @@ project.
 ## What is it?
 
 * `generate_data.py`: Python script to generate synthetic data.
-* `split_data.py`: Python script to split the generated data into training and
-  testing sets.
-* `train_preprocessor.py`: Python script to train a preprocessor (e.g.,
-  scaling, encoding) on the training data.
-* `preprocess.py`: Python script to preprocess a data file using the trained
-  preprocessor.
-* `train_model.py`: Python script to train a logistic regression model using
-  the preprocessed data.
-* `compute_metrics.py`: Python script to compute metrics from the trained
-  model.
-* `predict.py`: Python script to make predictions using the trained model.
-* `data`: Directory to store the generated data (CSV).
+* `plot_data.py`: Python script to plot the data.
+* `data`: directory with the data files.
+* `src`: directory with the Python scripts required to execute the workflow.
 * `params.yaml`: YAML file to store parameters for the scripts.
+* `setup.py`: Python script to set up the environment.
+* `requirements.txt`: Python requirements file to install the required packages.
+
 
 
 ## How to use it?
 
-We assume that we have the data sets given, i.e., `data/data.csv`.
+### Setting up the project
 
-
-### Initializing DVC
-
-To initialize DVC in your project, run the following command in the root
-directory of your project (where the `.git/` directory is located) to create a
-`.dvc/` directory and a `.dvcignore` file. 
+First, create the directory structure for the project.  Note that the directory
+you choose for this should not be a git repository.
 
 ```bash
+$ mkdir ~/dvc_project
+```
+
+Then execute the `setup.py` script to create the directory structure and
+copy the source code and data.
+
+```bash
+$ python setup.py ~/dvc_project
+```
+
+Two directories are created in `~/dvc_project`:
+* `ml_project`: directory with the source code and data files.
+* `dvc_data`: directory that will act as a remote for DVC.
+
+Next, change to the `ml_project` directory:
+
+```bash
+$ cd ~/dvc_project/ml_project
+```
+
+Initialize it as a git repository:
+
+```bash 
+$ git init
+```
+
+Add the `src` directory, the `params.yaml`, and the `requirements.txt` files
+to the git repository.  Do **not** add the `data` directory since this will
+under DVC control.
+
+```bash
+$ git add src params.yaml requirements.txt
+$ git commit -m 'Initial commit'
+```
+
+Create a virtual environment and install the required packages:
+
+```bash
+$ python -m venv env
+$ source env/bin/activate
+$ pip install -r requirements.txt
+```
+
+Add the `env` directory to the `.gitignore` file to avoid committing the
+virtual environment to the git repository.  Add and commit the file to the repository.
+
+```bash
+$ echo "env/" >> .gitignore
+$ git add .gitignore
+$ git commit -m 'Add .gitignore file'
+```
+
+Initialize DVC so that it can manage the data files and model files in the
+project.  This will create a `.dvc/` directory in the root of the project
+directory, which will contain the DVC configuration files. It will also create
+a `.dvcignore` file to ignore files that should not be tracked by DVC, such as
+the virtual environment directory and other temporary files.  Commit the files
+to the git repository that were created and added by the `dvc init` command.
+
+```bash 
 $ dvc init
+$ git commit -m 'Initialize DVC'
 ```
 
-Set a remote storage for DVC to store the data and model files. This can be a
-cloud storage service like AWS S3, Google Cloud Storage, or Azure Blob Storage.
-However, it can also be a local directory. For example, to set a local
-directory as the remote storage, run the following command:
+Add a remote to DVC to store the data and model files. In this examples, you
+can use the local directory `dvc_data` as the remote storage.  This will allow you to
+store the data and model files in a separate directory, which can be useful for
+collaboration and sharing.  Run the following command to add the remote storage.  Since this changes the DVC configuration file, add and commit it to the git repository.
 
-```bash
-$ dvc remote add -d local_storage /path/to/storage
+```bash 
+$ dvc remote add -d local_storage ../dvc_data
+$ git add .dvc/config
+$ git commit -m 'Add remote storage for DVC'
 ```
+
+Everything is now in place, and you can start using DVC to manage the data
+and model files in your project.
+
 
 ### Adding data to DVC
 
@@ -59,4 +116,31 @@ To add the data files to DVC, run the following commands:
 ```bash
 $ dvc add data/data.csv
 ```
+
+This will create a `.dvc` file in the `data` directory, which contains the
+metadata for the data file.  The actual data file will be stored in the remote
+storage directory `dvc_data`.  Add the `.dvc` file to the git repository and
+commit the changes:
+
+```bash
+$ git add data/data.csv.dvc
+$ git commit -m 'Add data file to DVC'
+```
+
+It is more convenient to let DVC automatically stage these files for you.  You can do this by
+configuring DVC to automatically stage the `.dvc` files when you run `dvc add`.  To do this, run the following command:
+
+```bash
+$ dvc config core.autostage true
+```
+
+Add the `.dvc/config` file to the git repository and commit the changes:
+
+```bash
+$ git add .dvc/config
+$ git commit -m 'Configure DVC to automatically stage .dvc files'
+```
+
+
+### Defining the workflow
 
