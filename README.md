@@ -1,7 +1,8 @@
-# MLOps
+# MLOps on HPC
 
 This is training material for an MLOps training.  Machine Learning Operations
-has some distinct requirements compared to traditional software development.
+have some distinct requirements compared to traditional software development.
+MLOps on HPC also have some specific aspects that are addressed as well.
 
 
 ## What is it?
