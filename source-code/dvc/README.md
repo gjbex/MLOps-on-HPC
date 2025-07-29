@@ -12,6 +12,8 @@ project.
 
 ## What is it?
 
+* `environment.yml`: Conda environment file to create the environment with the
+  required packages and software, including DVC.
 * `generate_data.py`: Python script to generate synthetic data.
 * `plot_data.py`: Python script to plot the data.
 * `data`: directory with the data files.
