@@ -1,7 +1,7 @@
 from convergence import AbstractIsConverged
 import copy
 from dynamics import AbstractStepper
-from ising_system import IsingSystem
+from model import IsingSystem
 from measures import AbstractMeasure
 import numpy as np
 

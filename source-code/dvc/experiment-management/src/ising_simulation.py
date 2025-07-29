@@ -3,7 +3,7 @@
 import argparse
 from convergence import IsMeasureStable
 from dynamics import GlauberStepper, MetropolisHastingsStepper
-from ising_system import IsingSystem
+from model import IsingSystem
 from measures import Magnetization, Energy
 from simulation import Simulation
 import yaml

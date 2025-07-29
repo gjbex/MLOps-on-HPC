@@ -5,8 +5,8 @@ Source code for the simulator of Ising models.
 
 ## What is it?
 
-1. `ising_system.py`: defines the `IsingSystem` class, which represents the
-   Ising model system.
+1. `model.py`: defines the `IsingSystem` class, which represents the Ising
+   model system.
 1. `measures.py`: defines the `AbstractMeasure` class, which serves as the
    base class for all measures that can be computed from the Ising model system.
    It implements two derived classes: `Energy` and `Magnetization`.

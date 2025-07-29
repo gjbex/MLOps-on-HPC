@@ -1,7 +1,7 @@
 import abc
 import itertools
 import numpy as np
-from ising_system import IsingSystem
+from model import IsingSystem
 
 
 class AbstractStepper(abc.ABC):
