@@ -1,0 +1,19 @@
+ising:
+  nr_rows: 100
+  nr_cols: 100
+  J: 1.0
+  h: 1.0
+  seed: 1234
+
+dynamics:
+  temperature: 2.0
+  type: "glauber"
+
+convergence:
+  measure: "magnetization"
+  nr_measurement_steps: 5
+  delta: 0.001
+
+simulation:
+  max_steps: 500
+  measure_interval: 10
