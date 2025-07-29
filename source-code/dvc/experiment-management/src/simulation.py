@@ -48,7 +48,7 @@ class Simulation:
             measure.sep = self._sep
         self._measures.extend(measures)
 
-    def _compute_measures(self, step_nr):
+    def _compute_measures(self, step_nr, live=None):
         '''Computes the measures for the simulation.
 
         Parameters
@@ -61,6 +61,8 @@ class Simulation:
         for measure in self._measures:
             measure(self._ising)
             values.append(measure.current_value)
+            if live is not None:
+                live.log_metric(measure.name, measure.current_value)
         print(self._sep.join(value for value in values))
 
     @property
@@ -87,7 +89,7 @@ class Simulation:
         '''
         return copy.deepcopy(self._measure_steps)
 
-    def run(self, *, max_steps, measure_interval=1):
+    def run(self, *, max_steps, measure_interval=1, live=None):
         ''' Simulates to convergence, or a maximum number of steps.
 
         Parameters
@@ -96,14 +98,18 @@ class Simulation:
           maximum number of simulation steps to perform
         measure_interval: int
           number of steps between the computation and display of measurements
+        live: dvclive.Live | None
+          DVC Live instance to log the simulation progress, defaults to None
         '''
         print('step' + self._sep + self._sep.join(measure.headers for measure in self._measures))    
         for step_nr in range(max_steps + 1):
             if step_nr % measure_interval == 0:
-                self._compute_measures(step_nr)
+                self._compute_measures(step_nr, live=live)
                 if self._is_converged():
                     break
             self._stepper.update(self._ising)
+            if live is not None:
+                live.next_step()
         else:
             self._compute_measures(step_nr)
 
