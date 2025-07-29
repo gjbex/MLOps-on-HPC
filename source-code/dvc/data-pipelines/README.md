@@ -1,4 +1,4 @@
-# DVC
+# DVC data pipelines
 
 DVC (Data Version Control) can be used to manage data and model files in a
 machine learning project. It allows you to track changes, share datasets, and
