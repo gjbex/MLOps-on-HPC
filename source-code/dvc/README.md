@@ -25,6 +25,7 @@ project.
   set up the DVC remote storage.
 * `define_workflow.sh`: shell script to define the workflow and add the
   stages to DVC.
+* `img`: directory with images to visualize the pipeline in terms of stages and data.
 
 
 ## How to use it?
