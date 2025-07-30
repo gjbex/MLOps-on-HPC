@@ -66,7 +66,10 @@ class Simulation:
             else:
                 values.append(str(current_value))
             if live is not None:
-                live.log_metric(measure.name, current_value)
+                if len(current_value) == 1:
+                    live.log_metric(measure.name, current_value[0])
+                else:
+                    raise ValueError(f'Live logging only supports scalar measures, but got: {measure.name}')
         print(self._sep.join(value for value in values))
 
     @property
