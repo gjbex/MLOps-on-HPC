@@ -10,5 +10,7 @@ a function of parameters.
 
 ## What is it?
 
+1. `setup_dvc_repo.sh`: script to set up a git repository with DVC and DVC Live.
+1. `requirements.txt`: file that contains the Python dependencies for the simulation.
 1. `src`: directory that contains the code for the simulation.
 1. `params.yaml`: file that contains the parameters for the simulation.
