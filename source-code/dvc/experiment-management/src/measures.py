@@ -22,8 +22,7 @@ class AbstractMeasure(abc.ABC):
           and the name is the sole header
         '''
         self._name = name
-        if headers is None:
-            self._headers = (self._name, )
+        self._headers = (self._name, ) if headers is None else tuple(headers)
         self._sep = ' '
         self._values = []
 
@@ -100,14 +99,14 @@ class AbstractMeasure(abc.ABC):
 
         Returns
         -------
-        str
-          string representation of the most recent value that was measured
+        tuple
+          the most recent value that was measured
         '''
         value = self._values[-1]
         if isinstance(value, collections.abc.Iterable):
-            return self._sep.join(str(x) for x in value)
+            return tuple(value)
         else:
-            return str(value)
+            return (value, )
 
     @abc.abstractmethod
     def compute_value(self, system):

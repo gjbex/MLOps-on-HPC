@@ -1,6 +1,6 @@
 import abc
-from measures import AbstractMeasure
 import numpy as np
+from measures import AbstractMeasure
 
 
 class AbstractIsConverged(abc.ABC):
@@ -47,7 +47,7 @@ class AbstractIsConverged(abc.ABC):
 
 
 class IsMeasureStable(AbstractIsConverged):
-    '''Convergence criterion that will stop the simulation if the meaure is
+    '''Convergence criterion that will stop the simulation if the measure is
     constant to within an absolute error for a given number of steps.'''
 
     def __init__(self, *, measure, nr_measurement_steps, delta):

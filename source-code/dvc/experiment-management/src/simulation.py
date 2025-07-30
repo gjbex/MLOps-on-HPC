@@ -1,9 +1,9 @@
-from convergence import AbstractIsConverged
 import copy
+import numpy as np
+from convergence import AbstractIsConverged
 from dynamics import AbstractStepper
 from model import IsingSystem
 from measures import AbstractMeasure
-import numpy as np
 
 
 class Simulation:
@@ -60,9 +60,13 @@ class Simulation:
         values = [str(step_nr)]
         for measure in self._measures:
             measure(self._ising)
-            values.append(measure.current_value)
+            current_value = measure.current_value
+            if isinstance(current_value, tuple):
+                values.append(self._sep.join(str(value) for value in current_value))
+            else:
+                values.append(str(current_value))
             if live is not None:
-                live.log_metric(measure.name, measure.current_value)
+                live.log_metric(measure.name, current_value)
         print(self._sep.join(value for value in values))
 
     @property

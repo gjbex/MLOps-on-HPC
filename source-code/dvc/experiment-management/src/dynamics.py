@@ -31,7 +31,7 @@ class AbstractStepper(abc.ABC):
         return self._temperature
 
     @staticmethod
-    def _compute_ΔH(ising, i, j):
+    def _compute_delta_H(ising, i, j):
         '''Computes the energy difference of the Hamiltonian if a spin
         were flipped (without actually flipping it).
 
@@ -55,7 +55,7 @@ class AbstractStepper(abc.ABC):
             ) + ising.h
         )
 
-    @abc.abstractclassmethod
+    @abc.abstractmethod
     def update(self, ising, nr_steps=1):
         '''Abstract method that updates the Ising system according to the dynamics
         specified by the derived classes.
@@ -104,8 +104,8 @@ class GlauberStepper(AbstractStepper):
         for _ in range(nr_steps):
             i = np.random.choice(self._row_indices)
             j = np.random.choice(self._col_indices)
-            ΔE = self.__class__._compute_ΔH(ising, i, j)
-            if np.random.uniform() < 1.0/(1.0 + np.exp(ΔE/self._temperature)):
+            delta_E = self.__class__._compute_delta_H(ising, i, j)
+            if np.random.uniform() < 1.0/(1.0 + np.exp(delta_E/self._temperature)):
                 ising[i, j] = -ising[i, j]
 
 
@@ -138,6 +138,6 @@ class MetropolisHastingsStepper(AbstractStepper):
             nr_steps = 1
         for _ in range(nr_steps):
             for i, j in itertools.product(range(ising.nr_rows), range(ising.nr_cols)):
-                ΔE = self.__class__._compute_ΔH(ising, i, j)
-                if ΔE <= 0.0 or np.random.uniform() < np.exp(-ΔE/self._temperature):
+                delta_E = self.__class__._compute_delta_H(ising, i, j)
+                if delta_E <= 0.0 or np.random.uniform() < np.exp(-delta_E/self._temperature):
                     ising[i, j] = -ising[i, j]

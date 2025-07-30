@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
 import argparse
-from convergence import IsMeasureStable
 from dvclive import Live
+import yaml
+from convergence import IsMeasureStable
 from dynamics import GlauberStepper, MetropolisHastingsStepper
 from model import IsingSystem
 from measures import Magnetization, Energy
 from simulation import Simulation
-import yaml
 
 
 def parse_args():
