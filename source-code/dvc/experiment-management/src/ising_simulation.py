@@ -2,11 +2,14 @@
 
 import argparse
 from dvclive import Live
+import pydantic
+import sys
 import yaml
 from convergence import IsMeasureStable
 from dynamics import GlauberStepper, MetropolisHastingsStepper
 from model import IsingSystem
 from measures import Magnetization, Energy
+from parameters import load_params, log_params
 from simulation import Simulation
 
 
@@ -22,78 +25,58 @@ def parse_args():
     parser.add_argument('params', type=str, help='YAML file with simulation parameters')
     return parser.parse_args()
 
-def load_configuration(filename):
-    '''Load simulation parameters from a YAML file.
-    
-    Parameters
-    ----------
-    filename: str
-      path to the YAML file with simulation parameters
-    
-    Returns
-    -------
-    dict
-      dictionary with simulation parameters
-    '''
-    with open(filename, 'r') as file:
-        return yaml.safe_load(file)
-
-def log_parameters(live, config):
-    '''Log simulation parameters using dvclive.
-    
-    Parameters
-    ----------
-    live: dvclive.Live
-      instance of dvclive to log parameters
-    config: dict
-      dictionary with simulation parameters
-    '''
-    for key, value in config.items():
-        if isinstance(value, dict):
-            for sub_key, sub_value in value.items():
-                live.log_param(f"{key}.{sub_key}", sub_value)
-        else:
-            live.log_param(key, value)
 
 def main():
     args = parse_args()
-    config = load_configuration(args.params)
+    try:
+        params = load_params(args.params)
+    except FileNotFoundError:
+        print(f"Error: The file '{args.params}' was not found.")
+        sys.exit(1)
+    except yaml.YAMLError as e:
+        print(f"Error: Failed to parse the YAML file '{args.params}'. {e}")
+        sys.exit(1)
+    except pydantic.ValidationError as e:
+        print('Error: Invalid parameters')
+        print(f'{e}')
+        sys.exit(1)
+
     with Live(report='html') as live:
         # Log parameters
-        log_parameters(live, config)
+        log_params(live, params)
 
         # Initialize Ising system
         ising = IsingSystem(
-            nr_rows=config['ising']['nr_rows'],
-            nr_cols=config['ising']['nr_cols'],
-            J=config['ising']['J'],
-            h=config['ising']['h'],
-            seed=config['ising']['seed'],
+            nr_rows=params.ising.nr_rows,
+            nr_cols=params.ising.nr_cols,
+            J=params.ising.J,
+            h=params.ising.h,
+            seed=params.ising.seed,
         )
 
         # Initialize dynamics stepper
-        if config['dynamics']['type'] == 'glauber':
-            stepper = GlauberStepper(temperature=config['dynamics']['temperature'], ising=ising)
-        elif config['dynamics']['type'] == 'metropolis_hastings':
-            stepper = MetropolisHastingsStepper(temperature=config['dynamics']['temperature'])
+        if params.dynamics.type == 'glauber':
+            stepper = GlauberStepper(temperature=params.dynamics.temperature, ising=ising)
+        elif params.dynamics.type == 'metropolis_hastings':
+            stepper = MetropolisHastingsStepper(temperature=params.dynamics.temperature)
         else:
-            raise ValueError(f"Unknown dynamics type: {config['dynamics']['type']}")
+            raise ValueError(f"Unknown dynamics type: {params.dynamics.type}")
 
         # Initialize convergence criterion
         measures = {
             'magnetization': Magnetization(),
             'energy': Energy(),
         }
-        if config['convergence']['measure'] not in measures:
-            raise ValueError(f"Unknown convergence type: {config['convergence']['measure']}")
+        if params.convergence.measure not in measures:
+            raise ValueError(f"Unknown convergence type: {params.convergence.measure}")
         is_converged = IsMeasureStable(
-            measure=measures[config['convergence']['measure']],
-            nr_measurement_steps=config['convergence']['nr_measurement_steps'],
-            delta=config['convergence']['delta']
+            measure=measures[params.convergence.measure],
+            nr_measurement_steps=params.convergence.nr_measurement_steps,
+            delta=params.convergence.delta
         )
         # Remove the measure used for the convergence check from the measures since
         # it will be added automatically to the simulation
-        del measures[config['convergence']['measure']]
+        del measures[params.convergence.measure]
 
         # Create simulation instance
         simulation = Simulation(ising=ising, stepper=stepper, is_converged=is_converged)
@@ -104,8 +87,8 @@ def main():
 
         # Run the simulation
         simulation.run(
-            max_steps=config['simulation']['max_steps'],
-            measure_interval=config['simulation']['measure_interval'],
+            max_steps=params.simulation.max_steps,
+            measure_interval=params.simulation.measure_interval,
             live=live,
         )
         live.make_report()
