@@ -10,6 +10,7 @@ a function of parameters.
 
 ## What is it?
 
+1. `environment.yml`: Conda definition for the software environment.
 1. `setup_dvc_repo.sh`: script to set up a git repository with DVC and DVC Live.
 1. `requirements.txt`: file that contains the Python dependencies for the simulation.
 1. `src`: directory that contains the code for the simulation.

@@ -1,0 +1,15 @@
+name: mlops_dvc
+channels:
+  - conda-forge
+dependencies:
+  - pandas
+  - numpy
+  - scikit-learn
+  - dvc
+  - dvclive
+  - ca-certificates
+  - certifi
+  - openssl
+  - matplotlib
+  - dvc-ssh
+prefix: /home/gjb/mambaforge/envs/mlops_dvc
