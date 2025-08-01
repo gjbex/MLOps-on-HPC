@@ -1,0 +1,11 @@
+name: mlops_dvc_experiments_r
+channels:
+  - conda-forge
+dependencies:
+  - r-base
+  - r-reticulate
+  - dvc
+  - dvclive
+  - python
+  - dvc-ssh
+prefix: /home/gjb/mambaforge/envs/mlops_dvc_experiments_r
