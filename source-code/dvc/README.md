@@ -10,5 +10,5 @@ changes in data files, models, and experiments.
 1. `data-pipelines`: illustration of how to set up data pipeline with DVC.
 1. `experiment-management`: illustration of how to use DVC for managing
    experiments in simulation or machine learning projects.
-1. `experiment-management_r`: illustration of how to use DVC for managing
+1. `experiment-management-r`: illustration of how to use DVC for managing
   experiments in R projects.
