@@ -1,0 +1,7 @@
+name: mlops_dvc_experiments_r
+channels:
+  - conda-forge
+dependencies:
+  - r-base
+  - r-yaml
+prefix: /home/gjb/mambaforge/envs/yaml_r
