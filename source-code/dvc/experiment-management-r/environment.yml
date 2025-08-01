@@ -4,8 +4,9 @@ channels:
 dependencies:
   - r-base
   - r-reticulate
+  - r-optparse
   - dvc
-  - dvclive
-  - python
   - dvc-ssh
+  - python
+  - dvclive
 prefix: /home/gjb/mambaforge/envs/mlops_dvc_experiments_r
