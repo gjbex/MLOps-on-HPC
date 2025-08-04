@@ -14,3 +14,5 @@ changes in data files, models, and experiments.
    experiments in R projects.
 1. `experiment-management`: more sophisticated illustration of how to use DVC
    for managing experiments in simulation or machine learning projects.
+1. `pipeline-experiment`: illustration of how to use DVC for managing
+   experiments in simulation or machine learning projects with pipelines.
