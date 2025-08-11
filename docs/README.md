@@ -17,16 +17,16 @@ When you complete this training you will
 
 ## Schedule
 
-Total duration: 2 hours.
+Total duration: 4 hours.
 
   | Subject                                     | Duration |
   |---------------------------------------------|----------|
   | introduction and motivation                 |  5 min.  |
   | setting up a git repository for ML          | 15 min.  |
-  | versioning data using DVC                   | 20 min.  |
-  | defining a workflow with DVC                | 30 min.  |
-  | comparing experiments using git & DVC       | 20 min.  |
-  | tracking experiments using DVC Live         | 20 min.  |
+  | versioning data using DVC                   | 30 min.  |
+  | defining a workflow with DVC                | 60 min.  |
+  | comparing experiments using git & DVC       | 60 min.  |
+  | tracking experiments using DVC Live         | 60 min.  |
   | wrap up                                     | 10 min.  |
 
 
