@@ -49,6 +49,12 @@ You will need experience running machine learning workloads in Python or R.  You
 will also need to be comfortable on the command line, and have some experience
 using the git version control system.
 
+For following along hands-on, you need
+* laptop or desktop with internet access and set up so you can connect to an
+  HPC system;
+* an account on an HPC system (e.g., VSC, CECI, ...);
+* compute credits if that is required to run jobs on the HPC system;
+
 
 ## Level
 
