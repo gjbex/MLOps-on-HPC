@@ -7,7 +7,9 @@ MLOps on HPC also have some specific aspects that are addressed as well.
 
 ## What is it?
 
+1. `mlops_on_hpc.pptx`: Powerpoint presentation for the training.
 1. `source-code`: source code samples for the training.
+1. `tools`: instructions on tools used in the training.
 1. `docs`: web site describing the training.
 1. [License](LICENSE): license information for the material in this repository.
 1. [Contributing](CONTRIBUTING.md): information on how to contribute to this
