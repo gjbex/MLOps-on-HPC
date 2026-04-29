@@ -83,6 +83,8 @@ If several of these items still feel difficult, the training will probably move
 too fast. In that case, it is better to first refresh basic command-line use,
 Git, and the workflow you use to run machine learning experiments.
 
+### Software and access requirements
+
 For following along hands-on, you need
 * laptop or desktop with internet access and set up so you can connect to an
   HPC system;
