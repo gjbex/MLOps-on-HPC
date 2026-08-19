@@ -1,0 +1,133 @@
+schema_version = 2
+id = "mlops-on-hpc"
+title = "MLOps on HPC"
+content_language = "en"
+summary = """
+Machine learning is becoming increasingly important in many fields, and topics such as reproducibility, data management, and experiment tracking are essential for any machine learning project. This training will teach you how to use MLOps frameworks to manage your machine learning projects, data, and workflows on HPC systems.
+"""
+languages = ["Python", "R"]
+
+[[learning_outcomes]]
+statement = "Be able to use DVC to version your data."
+competencies = ["dvc.version-data"]
+
+[[learning_outcomes]]
+statement = "Be able to define pipelines with DVC."
+competencies = ["dvc.define-pipelines"]
+
+[[learning_outcomes]]
+statement = "Be able to use DVC to manage your machine learning projects."
+competencies = ["dvc.manage-machine-learning-projects"]
+
+[[learning_outcomes]]
+statement = "Be able to reproduce your machine learning experiments."
+competencies = ["workflow-management.reproduce-computational-experiments"]
+
+[[learning_outcomes]]
+statement = "Be able to compare experiments using Git, DVC, and DVCLive."
+competencies = ["dvc.compare-experiments"]
+
+[source]
+metadata_document = "docs/README.md"
+repository_url = "https://github.com/gjbex/MLOps-on-HPC/"
+website_url = "https://gjbex.github.io/MLOps-on-HPC/"
+license = "CC-BY-4.0"
+
+[delivery]
+duration_minutes = 240
+duration_kind = "fixed"
+session_count = 1
+target_session_duration_minutes = 240
+schedule_complete = true
+description = """
+Total duration: 4 hours.
+"""
+
+[audience]
+description = """
+This training is for you if you need to manage machine learning workflows and experiments on HPC systems.
+"""
+
+[prerequisites]
+summary = """
+You will need experience running machine learning workloads in Python or R. You will also need to be comfortable on the command line, and have some experience using Git version control. More concretely, participants should already be comfortable with the following: * running machine learning or data-analysis scripts in Python or R; * working from the shell: navigating directories, running commands, editing small files, and inspecting output; * using Git for everyday operations such as `clone`, `add`, `commit`, `status`, `log`, and checking out previous revisions; * understanding the difference between source code, data, parameters, and generated results in an experiment; * running jobs on an HPC system at a basic level if the hands-on material is executed on a cluster. You do not need prior experience with DVC, DVCLive, DVC pipelines, experiment queues, or DVC-based parameter sweeps. Those are part of the training itself.
+"""
+competencies = ["shell.edit-run-inspect", "git.everyday-local-workflow", "git.inspect-history-and-revisions", "research-workflows.distinguish-artifact-roles", "hpc.understand-batch-jobs"]
+
+[self_assessment]
+introduction = """
+If you can do most of the tasks below without looking up basic shell, Git, or ML-workflow syntax, you are likely ready for this training.
+"""
+tasks = [
+  "Run a Python or R script that reads input data and writes output files.",
+  "Initialize or clone a Git repository and make a small commit.",
+  "Inspect which files in a repository changed after running an experiment.",
+  "Read a short YAML or configuration file and identify a few parameter values.",
+  "Understand that code, data, parameters, metrics, and plots may all change between experiments.",
+  "Rerun an experiment after changing one parameter and compare the result.",
+  "Work on a remote HPC system from the command line."
+]
+
+[requirements]
+software = [
+  "Laptop or desktop with internet access and set up so you can connect to an HPC system.",
+  "An account on an HPC system (e.g., VSC, CECI, ...).",
+  "Compute credits if that is required to run jobs on the HPC system."
+]
+
+[level]
+introductory_percent = 25
+intermediate_percent = 55
+advanced_percent = 20
+description = """
+For participants who already have basic machine learning workflow experience, the material in this training is approximately These percentages describe the level of the MLOps and experiment-management topics covered in the training, not the required entry level in Python, R, or Git itself.
+"""
+
+[[materials]]
+kind = "slides"
+path = "mlops_on_hpc.pptx"
+
+[[materials]]
+kind = "source-code"
+path = "source-code"
+
+[[trainers]]
+name = "Geert Jan Bex"
+email = "geertjan.bex@uhasselt.be"
+
+[[maintainers]]
+name = "Geert Jan Bex"
+email = "geertjan.bex@uhasselt.be"
+
+[[sessions]]
+id = "session-1"
+title = "Session one"
+duration_minutes = 240
+
+[[sessions.items]]
+subject = "introduction and motivation"
+duration_minutes = 5
+
+[[sessions.items]]
+subject = "setting up a Git repository for ML"
+duration_minutes = 15
+
+[[sessions.items]]
+subject = "versioning data using DVC"
+duration_minutes = 30
+
+[[sessions.items]]
+subject = "defining a workflow with DVC"
+duration_minutes = 60
+
+[[sessions.items]]
+subject = "comparing experiments using Git and DVC"
+duration_minutes = 60
+
+[[sessions.items]]
+subject = "tracking experiments using DVCLive"
+duration_minutes = 60
+
+[[sessions.items]]
+subject = "wrap up"
+duration_minutes = 10
